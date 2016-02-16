@@ -52,6 +52,18 @@ object Twitter {
             response.body
         }
 
+    def updateStatus(accessToken: String, accessSecret: String, status: String) =
+        getCredential("POST", "/1.1/statuses/update.json", List(
+            "oauth_consumer_key"      -> consumerKey,
+            "oauth_signature_method"  -> "HMAC-SHA1",
+            "oauth_timestamp"         -> (System.currentTimeMillis / 1000).toString,
+            "oauth_token"             -> accessToken,
+            "oauth_nonce"             -> System.currentTimeMillis.toString,
+            "oauth_version"           -> "1.0"
+        ), List("status" -> status), accessSecret).map { response =>
+            response.body
+        }
+
     private def getCredential(
         requestMethod  : String,
         entryPoint     : String,

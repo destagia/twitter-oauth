@@ -28,7 +28,9 @@ class Application extends Controller {
     for {
         tokenResponse <- Twitter.getAccessToken(oauth_token, oauth_verifier)
         params <- Future(parseQuery(tokenResponse.body))
-        userTimeline <- Twitter.getUserTimeline(params("oauth_token"), params("oauth_token_secret"), "KKKKKeiDrum", 10)
+        (token, secret) <- Future((params("oauth_token"), params("oauth_token_secret")))
+        _ <- Twitter.updateStatus(token, secret, "ライブラリ無しでOAuthの認証は大変だった")
+        userTimeline <- Twitter.getUserTimeline(token, secret, "KKKKKeiDrum", 10)
     } yield {
         Ok(userTimeline)
     })
