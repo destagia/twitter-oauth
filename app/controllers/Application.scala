@@ -11,18 +11,22 @@ class Application extends Controller {
 
     def index = Action { Ok("hello world") }
 
+    // 無理やりキャッシュする
+    var oauthSecret: String = null;
+
     def twitterAuth = Action.async {
         Twitter.getRequestToken().map { response =>
             val params      = parseQuery(response.body)
             val oauthToken  = params("oauth_token")
-            var oauthSecret = params("oauth_token_secret")
+            oauthSecret = params("oauth_token_secret")
             Redirect(s"https://api.twitter.com/oauth/authorize?oauth_token=$oauthToken")
         }
     }
 
     def twitterCallback(oauth_token: String, oauth_verifier: String) = Action.async(
         for {
-            tokenResponse <- Twitter.getAccessToken(oauth_token, oauth_verifier)
+            _ <- Future { println(oauthSecret) }
+            tokenResponse <- Twitter.getAccessToken(oauth_token, oauthSecret, oauth_verifier)
             params <- Future(parseQuery(tokenResponse.body))
             (token, secret) <- Future((params("oauth_token"), params("oauth_token_secret")))
             _ <- Twitter.updateStatus(token, secret, "ライブラリ無しでOAuthの認証は大変だった")

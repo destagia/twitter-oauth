@@ -26,7 +26,7 @@ object Twitter {
             "oauth_version"           -> "1.0"
         ))
 
-    def getAccessToken(oauthToken: String, oauthVerifier: String) =
+    def getAccessToken(oauthToken: String, oauthSecret: String, oauthVerifier: String) =
         getCredential("POST", "/oauth/access_token", List(
             "oauth_consumer_key"      -> consumerKey,
             "oauth_signature_method"  -> "HMAC-SHA1",
@@ -35,7 +35,7 @@ object Twitter {
             "oauth_nonce"             -> System.currentTimeMillis.toString,
             "oauth_verifier"          -> oauthVerifier,
             "oauth_version"           -> "1.0"
-        ))
+        ), Nil, oauthSecret)
 
     def getUserTimeline(accessToken: String, accessSecret: String, screenName: String, count: Int = 10) =
         getCredential("GET", "/1.1/statuses/user_timeline.json", List(
