@@ -18,7 +18,8 @@ class Application extends Controller {
         Twitter.getRequestToken().map { response =>
             val params      = parseQuery(response.body)
             val oauthToken  = params("oauth_token")
-            oauthSecret = params("oauth_token_secret")
+            // oauthSecret = params("oauth_token_secret")
+            oauthSecret = ""
             Redirect(s"https://api.twitter.com/oauth/authorize?oauth_token=$oauthToken")
         }
     }
