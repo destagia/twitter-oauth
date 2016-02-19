@@ -1,4 +1,6 @@
-This is your new Play application
-=================================
+# OAuth Sample
 
-This file will be packaged with your application, when using `activator dist`.
+OAuthをライブラリを使わずに認証して、OAuthの仕組みを学びます。
+
+## 1. OAuthの仕組み
+

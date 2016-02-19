@@ -33,7 +33,7 @@ object Twitter {
             "oauth_timestamp"         -> (System.currentTimeMillis / 1000).toString,
             "oauth_token"             -> oauthToken,
             "oauth_nonce"             -> System.currentTimeMillis.toString,
-            "oauth_verifier"           -> oauthVerifier,
+            "oauth_verifier"          -> oauthVerifier,
             "oauth_version"           -> "1.0"
         ))
 
